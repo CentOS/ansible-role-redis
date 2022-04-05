@@ -1,1 +1,24 @@
 # Defaults tasks for role redis
+
+- name: Importing specific distro variables
+  ansible.builtin.include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_distribution }}.yml"
+  tags:
+    - vars
+
+- name: Installing required repositories
+  ansible.builtin.yum:
+    name: "{{ redis_pkgs }}"
+    state: latest
+  tags:
+    - pkgs
+
+- name: Enable and start Redis service
+  ansible.builtin.systemd:
+    name: redis
+    enabled: yes
+    state: started
+  tags:
+    - services

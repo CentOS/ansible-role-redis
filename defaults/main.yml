@@ -1,1 +1,3 @@
 # Defaults variables for role redis
+# Simple role that can be included from other roles and basic redis feature like install / start service, nothing else for now
+
